@@ -69,7 +69,7 @@ public class PluginMessage extends DefinedPacket
     {
         return new DataInputStream( new ByteArrayInputStream( data ) );
     }
-
+    
     public MinecraftInput getMCStream()
     {
         return new MinecraftInput( Unpooled.wrappedBuffer( data ) );

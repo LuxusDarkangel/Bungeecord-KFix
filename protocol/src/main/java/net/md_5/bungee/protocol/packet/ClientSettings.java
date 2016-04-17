@@ -18,23 +18,28 @@ public class ClientSettings extends DefinedPacket
 
     private String locale;
     private byte viewDistance;
-    private byte chatFlags;
+    private int chatFlags;
     private boolean chatColours;
     private byte difficulty;
     private byte skinParts;
+    private int mainHand;
 
     @Override
     public void read(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
     {
         locale = readString( buf );
         viewDistance = buf.readByte();
-        chatFlags = buf.readByte();
+        chatFlags = protocolVersion >= ProtocolConstants.MINECRAFT_1_9 ? DefinedPacket.readVarInt( buf ) : buf.readUnsignedByte();
         chatColours = buf.readBoolean();
         if ( protocolVersion <= ProtocolConstants.MINECRAFT_1_7_6 )
         {
             difficulty = buf.readByte();
         }
         skinParts = buf.readByte();
+        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_9 )
+        {
+            mainHand = DefinedPacket.readVarInt( buf );
+        }
     }
 
     @Override
@@ -42,13 +47,23 @@ public class ClientSettings extends DefinedPacket
     {
         writeString( locale, buf );
         buf.writeByte( viewDistance );
-        buf.writeByte( chatFlags );
+        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_9 )
+        {
+            DefinedPacket.writeVarInt( chatFlags, buf );
+        } else
+        {
+            buf.writeByte( chatFlags );
+        }
         buf.writeBoolean( chatColours );
         if ( protocolVersion <= ProtocolConstants.MINECRAFT_1_7_6 )
         {
             buf.writeByte( difficulty );
         }
         buf.writeByte( skinParts );
+        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_9 )
+        {
+            DefinedPacket.writeVarInt(mainHand, buf);
+        }
     }
 
     @Override

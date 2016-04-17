@@ -28,8 +28,8 @@ public class EncryptionResponse extends DefinedPacket
             verifyToken = readArrayLegacy( buf );
         } else
         {
-            sharedSecret = readArray( buf );
-            verifyToken = readArray( buf );
+            sharedSecret = readArray( buf, 128 );
+            verifyToken = readArray( buf, 128 );
         }
     }
 

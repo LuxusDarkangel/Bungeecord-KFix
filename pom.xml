@@ -11,12 +11,12 @@
 
     <groupId>net.md-5</groupId>
     <artifactId>bungeecord-parent</artifactId>
-    <version>1.8-SNAPSHOT</version>
+    <version>1.9-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>BungeeCord-Parent</name>
     <description>Parent project for all BungeeCord modules.</description>
-    <url>https://github.com/SpigotMC/BungeeCord</url>
+    <url>https://github.com/HexagonMC/BungeeCord</url>
     <inceptionYear>2012</inceptionYear>
     <organization>
         <name>SpigotMC</name>
@@ -34,6 +34,12 @@
         <developer>
             <id>md_5</id>
         </developer>
+        <developer>
+            <id>Zartec</id>
+        </developer>
+        <developer>
+            <id>ghac</id>
+        </developer>
     </developers>
 
     <modules>
@@ -50,22 +56,22 @@
     </modules>
 
     <scm>
-        <connection>scm:git:git@github.com:SpigotMC/BungeeCord.git</connection>
-        <developerConnection>scm:git:git@github.com:SpigotMC/BungeeCord.git</developerConnection>
-        <url>git@github.com:SpigotMC/BungeeCord.git</url>
+        <connection>scm:git:git@github.com:HexagonMC/BungeeCord.git</connection>
+        <developerConnection>scm:git:git@github.com:HexagonMC/BungeeCord.git</developerConnection>
+        <url>git@github.com:HexagonMC/BungeeCord.git</url>
     </scm>
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/SpigotMC/BungeeCord/issues</url>
+        <url>https://github.com/HexagonMC/BungeeCord/issues</url>
     </issueManagement>
     <ciManagement>
-        <system>jenkins</system>
-        <url>http://ci.md-5.net/job/BungeeCord</url>
+        <system>travis-ci</system>
+        <url>https://travis-ci.org/HexagonMC/BungeeCord</url>
     </ciManagement>
 
     <properties>
         <build.number>unknown</build.number>
-        <netty.version>4.0.31.Final</netty.version>
+        <netty.version>4.0.33.Final</netty.version>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -101,18 +107,17 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.lukegb.mojo</groupId>
-                <artifactId>gitdescribe-maven-plugin</artifactId>
-                <version>1.3</version> <!-- There is 2.0, but it seems broken -->
+                <groupId>net.md-5</groupId>
+                <artifactId>scriptus</artifactId>
+                <version>0.3.1</version>
                 <configuration>
-                    <outputPrefix>git:${project.name}:${project.version}:</outputPrefix>
-                    <outputPostfix>:${build.number}</outputPostfix>
+                    <format>git:${project.name}:${project.version}:%s:${build.number}</format>
                 </configuration>
                 <executions>
                     <execution>
                         <phase>initialize</phase>
                         <goals>
-                            <goal>gitdescribe</goal>
+                            <goal>describe</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -149,5 +154,36 @@
                 <version>2.7</version>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>net.md-5</groupId>
+                                        <artifactId>scriptus</artifactId>
+                                        <versionRange>[0.3.1,)</versionRange>
+                                        <goals>
+                                            <goal>describe</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute>
+                                            <runOnIncremental>false</runOnIncremental>
+                                        </execute >
+                                     </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>

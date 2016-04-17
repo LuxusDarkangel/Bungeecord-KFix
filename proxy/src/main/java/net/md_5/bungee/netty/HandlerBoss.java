@@ -66,10 +66,10 @@ public class HandlerBoss extends ChannelInboundHandlerAdapter
         if ( handler != null )
         {
             PacketWrapper packet = (PacketWrapper) msg;
-            boolean sendPacket = true;
+            boolean sendPacket = handler.shouldHandle( packet );
             try
             {
-                if ( packet.packet != null )
+                if ( sendPacket && packet.packet != null )
                 {
                     try
                     {
@@ -104,6 +104,8 @@ public class HandlerBoss extends ChannelInboundHandlerAdapter
                 {
                     handler, cause.getCause().getMessage()
                 } );
+
+                cause.printStackTrace();
             } else if ( cause instanceof IOException )
             {
                 ProxyServer.getInstance().getLogger().log( Level.WARNING, "{0} - IOException: {1}", new Object[]

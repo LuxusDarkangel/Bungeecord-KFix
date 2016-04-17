@@ -14,14 +14,13 @@ import java.util.UUID;
 
 public class PlayerInfoSerializer implements JsonSerializer<ServerPing.PlayerInfo>, JsonDeserializer<ServerPing.PlayerInfo>
 {
-
     private final int protocol;
 
     public PlayerInfoSerializer(int protocol)
     {
         this.protocol = protocol;
     }
-
+    
     @Override
     public ServerPing.PlayerInfo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
     {
